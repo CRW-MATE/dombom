@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<style>
+body{background-color: black;display: flex;
+  flex-direction: row;margin: 0%;}
+html{overflow: hidden;}
+canvas{background-color: olive;margin: 0%;
+  translate: 180px;}
+
+</style>
+<title>debug collision</title>
+<body>
+      <div id="joyHub" ontouchend="joyEnd()" 
+      ontouchmove="joyST(event,1)"
+      ontouchstart="joyST(event,2)" >
+        <div id="joy">N</div>
+      </div>
+      <canvas height="360px" width="640px"></canvas>
+    </div>
+    </body>
+</html>
+<script>
+   const canvas = document.querySelector("canvas");
+  const c = canvas.getContext("2d");
+  const mh=360;
+  const mx=640;
+</script>
+<script src="save0.js">
+</script>
+<script src="coll.js">
+</script>
+<script src="jystk.js">
+</script>
