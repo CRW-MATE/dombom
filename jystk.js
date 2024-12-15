@@ -4,7 +4,7 @@ let vel = Pp1.v;
 const joy = document.getElementById("joy");
 const hub = document.querySelector("#joyHub").style;
 //joyStyles
-let joys = 100;
+let joys = 150;
 joy.style.height = `${joys}px`;
 joy.style.width = `${joys}px`;
 joy.style.backgroundColor = "rgb(113, 37,37)";
@@ -14,7 +14,7 @@ joy.style.translate = `${joys}px ${joys}px`;
 //hubStyle
 let hubx = 200,
   huby = 700,
-  hubs = 300;
+  hubs = 450;
 hub.opacity = "40%";
 hub.border = "double 15px white";
 hub.backgroundColor = "gray";
@@ -73,7 +73,6 @@ ${log[1]}px`;
           joy.innerHTML = "N";
         }
       }
-
       if (log[0] < 40) {
         if (log[1] > 90) {
           Pp1.x = Pp1.x - Pp1.vel * 0.707;
@@ -90,7 +89,7 @@ ${log[1]}px`;
           }
         }
       }
-    }, 100);
+   }, 100);
   }
 };
 

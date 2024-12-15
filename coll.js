@@ -1,4 +1,4 @@
-let Radius = 50,
+let Radius = 50,G=10,
   n = 5,
   colors = ["darkRed", "brown", "darkGreen", "green", "darkBlue", "blue"];
 c.lineWidth = 4;
@@ -46,6 +46,7 @@ let draw = setInterval(function () {
     i++;
   }
   i = 0;
+  Pp1.y=Pp1.y+G ;
   //player border
   if (Pp1.x > mx - Pp1.w) {
     Pp1.x = mx - Pp1.w;
@@ -60,6 +61,7 @@ let draw = setInterval(function () {
     Pp1.y = 0;
   }
   c.fillStyle = "purple";
+   Pp1.y=Pp1.y-0.1;   Pp1.y=Pp1.y-0.1;;
   c.fillRect(Pp1.x, Pp1.y, Pp1.w, Pp1.h);
   c.strokeRect(Pp1.x, Pp1.y, Pp1.w, Pp1.h);
 }, 100);

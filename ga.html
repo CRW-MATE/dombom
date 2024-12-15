@@ -2,19 +2,20 @@
 <style>
 body{background-color: black;display: flex;
   flex-direction: row;margin: 0%;}
-html{overflow: hidden;}
+html{overflow: hidden;width:100%; height:100%;}
 canvas{background-color: olive;margin: 0%;
-  translate: 180px;}
+  translate: 0px;}
 
 </style>
 <title>debug collision</title>
 <body>
       <div id="joyHub" ontouchend="joyEnd()" 
       ontouchmove="joyST(event,1)"
-      ontouchstart="joyST(event,2)" >
+      ontouchstart="joyST(event,2)" 
+      ontouchcancel="joyEnd()">
         <div id="joy">N</div>
       </div>
-      <canvas height="360px" width="640px"></canvas>
+      <canvas height="360px" width="640px"><canvas>
     </div>
     </body>
 </html>
