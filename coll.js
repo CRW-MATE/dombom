@@ -1,5 +1,7 @@
-let Radius = 50,G=10,
-  n = 5,
+let Radius = 50,
+  n = 1,
+  G = -2,
+  vG = 0,
   colors = ["darkRed", "brown", "darkGreen", "green", "darkBlue", "blue"];
 c.lineWidth = 4;
 class circle {
@@ -8,7 +10,7 @@ class circle {
     this.y = rand(mh);
     this.vBlx = 15;
     this.vBly = 15;
-    this.color = colors[Math.round(Math.random() * colors.length - 1)];
+    this.color = colors[Math.round(Math.random() * (colors.length - 1))];
     this.draw = function () {
       c.beginPath();
       c.arc(this.x, this.y, Radius, 0, 6.28);
@@ -46,13 +48,15 @@ let draw = setInterval(function () {
     i++;
   }
   i = 0;
-  Pp1.y=Pp1.y+G ;
   //player border
+  vG = vG - G;
+  Pp1.y = Pp1.y + vG;
   if (Pp1.x > mx - Pp1.w) {
     Pp1.x = mx - Pp1.w;
   }
   if (Pp1.y > mh - Pp1.h) {
     Pp1.y = mh - Pp1.h;
+    vG = 0;
   }
   if (Pp1.x < 0) {
     Pp1.x = 0;
@@ -61,7 +65,6 @@ let draw = setInterval(function () {
     Pp1.y = 0;
   }
   c.fillStyle = "purple";
-   Pp1.y=Pp1.y-0.1;   Pp1.y=Pp1.y-0.1;;
   c.fillRect(Pp1.x, Pp1.y, Pp1.w, Pp1.h);
   c.strokeRect(Pp1.x, Pp1.y, Pp1.w, Pp1.h);
 }, 100);
