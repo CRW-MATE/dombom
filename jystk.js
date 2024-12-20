@@ -4,8 +4,8 @@ let ds = 45;
 const joy = document.getElementById("joy");
 const hub = document.querySelector("#joyHub").style;
 //hubStyle
-let hubx = 18,
-  huby = 0,
+let hubx = 35,
+  huby = 10,
   hubs = 300;
 hub.opacity = "40%";
 hub.border = "double 15px white";
@@ -115,7 +115,7 @@ for (i = 0; i < buttons.length; i++) {
   a.position = "absolute";
   a.zIndex = "3";
 }
-buttons[0].style.translate = `600px 10px`;
-buttons[1].style.translate = `800px 10px`;
-buttons[2].style.translate = `600px 160px`;
-buttons[3].style.translate = `800px 160px`;
+buttons[0].style.translate = "575px 10px";
+buttons[1].style.translate = `775px 10px`;
+buttons[2].style.translate = `575px 185px`;
+buttons[3].style.translate = `775px 185px`;

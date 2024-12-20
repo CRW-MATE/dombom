@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <style>
 #window{background-color: rgb(65, 14, 14);
-  margin: 0%;overflow: hidden;height:75vh;width:100vw;}
-  body{width:100vw;height: 100vh;margin: 0%;}
-canvas{background-color: olive;margin: 0%;translate:440px}
+  margin: 0%;overflow: hidden;}
+html{margin: 0%;background-color: black;}
+body{margin: 0%;background-color: black;}
+canvas{background-color: olive;margin: 0%;}
+button:hover{background-color: aqua;}
 </style>
 <title>debug collision</title>
 <body>
@@ -23,15 +25,32 @@ canvas{background-color: olive;margin: 0%;translate:440px}
   </div>
 
 </html>
+<script src="save0.js">
+</script>
+<script src="jystk.js">
+</script>
 <script>
    const canvas = document.querySelector("canvas");
   const c = canvas.getContext("2d");
   const mh=360;
   const mx=640;
-</script>
-<script src="save0.js">
-</script>
-<script src="coll.js">
-</script>
-<script src="jystk.js">
-</script>
+  const dindow = document.querySelector("#window");
+  const kindow = document.querySelector("html");
+
+  window.onload=function(){  
+    kindow.style.width=`${window.innerWidth}px`;
+    dindow.style.width=`${window.innerWidth}px`;
+    kindow.style.height=`${window.innerHeight}px`;
+    dindow.style.height=`${window.innerHeight}px`;
+    canvas.style.translate=`${(window.innerWidth-mx)*0.5}px`
+  };
+  window.onresize=function(){
+    kindow.style.width=`${window.innerWidth}px`;
+    dindow.style.width=`${window.innerWidth}px`;
+    kindow.style.height=`${window.innerHeight}px`;
+    dindow.style.height=`${window.innerHeight}px`;
+    canvas.style.translate=`${(window.innerWidth-mx)*0.5}px`
+};
+  </script>
+  <script src="coll.js">
+  </script>
