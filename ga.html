@@ -1,56 +1,51 @@
 <!DOCTYPE html>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=0.4" />
 <style>
-#window{background-color: rgb(65, 14, 14);
-  margin: 0%;overflow: hidden;}
-html{margin: 0%;background-color: black;}
+#window{background-color: rgb(65, 14, 14);margin: 0%;overflow: hidden;
+position: absolute;}
+html{margin: 0%;background-color: black;position:absolute;}
 body{margin: 0%;background-color: black;}
-canvas{background-color: olive;margin: 0%;}
-button:hover{background-color: aqua;}
+canvas{background-color: olive;margin: 0%;position:absolute}
+#joy {user-select: none;font-size: 150px;
+}
 </style>
 <title>debug collision</title>
 <body>
-  <div id="window">     
-     <div id="joyHub" ontouchend="joyEnd()" 
-      ontouchmove="joyST(event,1)"
-      ontouchstart="joyST(event,2)" >
-        <div id="joy">N</div>
-      </div>
-      <canvas height="360px" width="640px"></canvas>
-      <button class="butt"></button>
-      <button class="butt"></button>
-      <button class="butt"></button>
-      <button class="butt"></button>
-    </div>
+  <div id="joyHub" ontouchend="joyEnd()" ontouchcancel="joyEnd()" 
+  ontouchmove="joyST(event)" ontouchstart="joyST(event)">
+    <div id="joy"></div>
+  </div>
+      <canvas></canvas>
+    <button ontouchstart="button(0,1);jump()" 
+    ontouchend="button(0,0)" 
+    ontouchcancel="button(0,0)">&alpha;</button>
+
+    <button ontouchstart="button(1,1);dire='D'" 
+    ontouchend="button(1,0);dire='N'" 
+    ontouchcancel="button(1,0);dire='N'">&beta;</button>
+
+    <button ontouchstart="button(2,1);dire='U'" 
+    ontouchend="button(2,0);dire='N'" 
+    ontouchcancel="button(2,0)">&gamma;</button>
+    <button 
+    ontouchstart="button(3,1);Gamestarting=!Gamestarting;"
+    ontouchend="button(3,0)" 
+    ontouchcancel="button(3,0)">&models;</button>
     </body>
   </div>
-
 </html>
-<script src="save0.js">
-</script>
-<script src="jystk.js">
-</script>
+<script src="jystk.js"></script>
 <script>
-   const canvas = document.querySelector("canvas");
+const canvas = document.querySelector("canvas");
   const c = canvas.getContext("2d");
-  const mh=360;
-  const mx=640;
-  const dindow = document.querySelector("#window");
+  c.imageSmoothingEnabled=false;
   const kindow = document.querySelector("html");
-
-  window.onload=function(){  
-    kindow.style.width=`${window.innerWidth}px`;
-    dindow.style.width=`${window.innerWidth}px`;
-    kindow.style.height=`${window.innerHeight}px`;
-    dindow.style.height=`${window.innerHeight}px`;
-    canvas.style.translate=`${(window.innerWidth-mx)*0.5}px`
-  };
-  window.onresize=function(){
-    kindow.style.width=`${window.innerWidth}px`;
-    dindow.style.width=`${window.innerWidth}px`;
-    kindow.style.height=`${window.innerHeight}px`;
-    dindow.style.height=`${window.innerHeight}px`;
-    canvas.style.translate=`${(window.innerWidth-mx)*0.5}px`
-};
+  const sprite=document.getElementById("sprite");
+  window.onload=screenResize();
+  screen.orientation.addEventListener("change", (event) => {
+ screenResize(1);})
+</script>
+  <script src="save0.js">
   </script>
   <script src="coll.js">
   </script>
