@@ -1,7 +1,7 @@
 let isJumping = false,
   //determines if the jump button is pressed
   i = 0,
-  hell = 0;
+  test01 = 1;
 // i a pretty godlike aura lies behind that name
 Gamestarting = 1;
 // a bool which is tells whether the game is paused or runing like normal
@@ -12,6 +12,7 @@ const gamev = {
   time: 0,
   timeRate: 0.1,
   clouds: 1,
+  playerCount: 1,
 };
 //awake? time, time rate,clouds
 const images = {
@@ -34,8 +35,8 @@ images.struct_1.src = "art/struct_1.png";
 // their src preferably in the art folder pls ld dem haV sAme nuame
 const characters = [
   {
-    //Pp1 the og
-    NR: [
+    //obj the og
+    WR: [
       {
         SpX: 0,
         SpY: 0,
@@ -71,9 +72,58 @@ const characters = [
         w: 28,
       },
     ],
-    NL: 0,
-    WR: 0,
-    Wl: 0,
+    WL: [
+      {
+        SpX: 0,
+        SpY: 65,
+        h: 62,
+        w: 28,
+      },
+      {
+        h: 62,
+        w: 28,
+      },
+      {
+        h: 62,
+        w: 28,
+      },
+      {
+        h: 61,
+        w: 28,
+      },
+      {
+        h: 61,
+        w: 28,
+      },
+      {
+        h: 63,
+        w: 28,
+      },
+      {
+        h: 63,
+        w: 28,
+      },
+      {
+        h: 61,
+        w: 28,
+      },
+    ],
+    NR: [
+      {
+        SpX: 0,
+        SpY: 0,
+        h: 62,
+        w: 28,
+      },
+    ],
+    Nl: [
+      {
+        SpX: 0,
+        SpY: 65,
+        h: 62,
+        w: 28,
+      },
+    ],
   },
 ];
 const drawPat = (img, SpX, SpY, Sw, Sh, pX, pY, x, y, w, h) => {
@@ -120,7 +170,86 @@ const drawPat = (img, SpX, SpY, Sw, Sh, pX, pY, x, y, w, h) => {
     ix += pX;
   }
 };
+const movemento = (obj) => {
+  document.addEventListener("keydown", function (event) {
+    switch (event.key) {
+      case "ArrowUp":
+        // Up arrow key pressed
+        obj.dire = "U";
+        break;
+      case "ArrowDown":
+        // Down arrow key pressed
+        obj.dire = "D";
+        break;
+      case "ArrowLeft":
+        // Left arrow key pressed
+        obj.dire = "L";
+        break;
+      case "ArrowRight":
+        obj.dire = "R";
+        // Right arrow key pressed
+        break;
 
+      case "z":
+        // "z"
+        isJumping = true;
+        break;
+    }
+  });
+  document.addEventListener("keyup", function (event) {
+    const keys = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"];
+    if (keys.includes(event.key)) {
+      // Handle key release for any of the specified keys
+      obj.dire = "N";
+    }
+  });
+  switch (obj.dire) {
+    case "N":
+      obj.velX = 0;
+      if (obj.look == "R") {
+        doanim(obj, characters[obj.char].NR, 1, 0);
+      }
+      if (obj.look == "L") {
+        doanim(obj, characters[obj.char].Nl, 1, 0);
+      }
+      obj.lstDir = "N";
+      break;
+    case "U":
+      break;
+    case "D":
+      obj.velX = 0;
+      obj.lstDir = "D";
+      break;
+    case "R":
+      obj.velX = 10;
+      doanim(obj, characters[obj.char].WR, 2, 1, 6);
+      obj.lstDir = "R";
+      obj.look = "R";
+      break;
+    case "L":
+      obj.velX = -10;
+      doanim(obj, characters[obj.char].WL, 2, 1, 6);
+      obj.lstDir = "L";
+      obj.look = "L";
+      break;
+    case "UR":
+      obj.velX = 0;
+      obj.look = "R";
+      break;
+    case "DR":
+      obj.velX = 0;
+      obj.look = "R";
+      break;
+    case "UL":
+      obj.velX = 0;
+      obj.look = "L";
+      break;
+    case "DL":
+      obj.velX = 0;
+      obj.look = "L";
+      break;
+  }
+};
 //characters and their animation frames
 //functions of importance
 //doanim handles animation
@@ -158,7 +287,7 @@ const doanim = (obj, arr, t, loop, smart) => {
 
     obj.frame++;
   } else {
-    if (Pp1.lstDir !== dire) {
+    if (obj.lstDir !== obj.dire) {
       obj.frame = 0;
     }
   }
@@ -236,7 +365,8 @@ const HitBox = (obj) => {
     obj.Hha == 0;
   }
   c.fillStyle = "green";
-  c.strokeRect(obj.x - Pp1.xc, obj.y - obj.Hha, obj.w, obj.Hha + obj.h);
+  c.lineWidth = "15px";
+  c.strokeRect(obj.x - obj.xc, obj.y - obj.Hha, obj.w, obj.Hha + obj.h);
 };
 // by drawing a green outline around an object
 // it makes the colliding areas clear and visable
@@ -280,7 +410,7 @@ class scene {
           A.x < B.x + B.w &&
           B.x < A.x + A.w &&
           A.y < B.y + B.h &&
-          B.y - B.Hha < A.y + A.h + Math.sin(A.breath)
+          B.y - B.Hha < A.y + A.h
         ) {
           switch (B.type) {
             case "item":
@@ -291,7 +421,7 @@ class scene {
             case "door":
               // an example of checking before doing anything
               if (B.ido) {
-                if (dire == "U") {
+                if (Pp1.dire == "U") {
                   B.chkCol(det);
                 }
               } else {
@@ -414,11 +544,6 @@ class scene {
         }
       }
       // a being promoted to be more than any by simply existing(player render)
-      if (dire == "N") {
-        Pp1.breath += 0.5;
-      } else {
-        Pp1.breath = 0;
-      }
       c.drawImage(
         images.Pp1,
         Pp1.SpX,
@@ -560,10 +685,10 @@ class platform {
             A.velY = 0;
           }
         case "floor":
-          if (dire == "U") {
+          if (Pp1.dire == "U") {
             Pp1.velY = 10;
           } else {
-            if (dire == "D") {
+            if (Pp1.dire == "D") {
               Pp1.velY = -10;
             } else {
               Pp1.velY = -Pp1.G;
@@ -576,10 +701,10 @@ class platform {
 }
 //platforms like slopes and walls to help shape the pathway of the scene
 //each kind explained inside the class "didnt do it did i?
-class circle {
+/*class circle {
   constructor() {
-    this.x = Pp1.x + Pp1.w / 2;
-    this.y = Pp1.y + Pp1.h;
+    this.x = obj.x + obj.w / 2;
+    this.y = obj.y + obj.h;
     this.w = 100;
     this.h = 100;
     this.vBlx = 0;
@@ -587,17 +712,17 @@ class circle {
     this.color = colors[Math.round(Math.random() * (colors.length - 1))];
     this.chkCol = function () {
       this.color = colors[Math.round(Math.random() * (colors.length - 1))];
-      this.vBlx = Pp1.velX - this.vBlx;
+      this.vBlx = obj.velX - this.vBlx;
       this.vBly = -30;
-      this.y = Pp1.y - Pp1.h * Pp1.size;
+      this.y = obj.y - obj.h * obj.size;
       if (this.vBlx > 0) {
-        this.x = Pp1.x + Pp1.w;
+        this.x = obj.x + obj.w;
       }
       if (this.vBlx < 0) {
-        this.x = Pp1.x - 100;
+        this.x = obj.x - 100;
       }
       if (!this.vBlx) {
-        this.x = Pp1.x;
+        this.x = obj.x;
       }
       if (this.vBlx > 30) {
         this.vBlx = 30;
@@ -620,12 +745,8 @@ class circle {
       this.vBly = 0;
     }
   }
-}
-//circle is as old as existance likely kept for when needed
-//it's for a time i didnt know canvas for what it is
-//for when this game was supposed to be a touhou 1 esque fighting game
-//about a purple-haired-green-sweater-girl flinging balls at her opponents
-
+}*/
+//circle is as old as existance , the first interaction with canvas
 class item {
   constructor(alp, bet, id) {
     this.type = "item";
@@ -634,7 +755,7 @@ class item {
     this.chkCol = function () {
       if (id) {
       }
-      Pp1.inventory.push(itemList[id]);
+      obj.inventory.push(itemList[id]);
     };
   }
 }
@@ -667,11 +788,7 @@ class door {
   }
 }
 // door is what transitions you between different scenes
-// could be used in the future as beds to transend to dream world
-//e1m#
-// designation of scenes to that of doom
-// but i think it's useless considering i'm doing every thing in one "world"
-
+//e1
 const world = [
   new scene(
     [
@@ -696,96 +813,16 @@ const world = [
     800
   ),
 ];
-//the WWWOOORRRLLLDDD array containing 2 scenes currently
+//the world array containing 2 scenes currently
+// this array has a list of objects that are constructed by the classes
 let gameLoo = setInterval(function () {
   if (Gamestarting) {
+    movemento(Pp1);
     world[Pp1.room].collis();
-    HitBox(world[0].entities[1]);
+    //HitBox(world[0].entities[1]); draws a hitbox of an element
     //the MvP (MAIN VISUAL //and technical// PROCESSOR)
     //player border and movement
-    document.addEventListener("keydown", function (event) {
-      switch (event.key) {
-        case "ArrowUp":
-          // Up arrow key pressed
-          dire = "U";
-          break;
-        case "ArrowDown":
-          // Down arrow key pressed
-          dire = "D";
-          break;
-        case "ArrowLeft":
-          // Left arrow key pressed
-          dire = "L";
-          break;
-        case "ArrowRight":
-          dire = "R";
-          // Right arrow key pressed
-          break;
-
-        case "z":
-          // "z"
-          isJumping = true;
-          break;
-        case "c":
-          alert("say gex");
-          break;
-      }
-    });
-    document.addEventListener("keyup", function (event) {
-      const keys = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"];
-      if (keys.includes(event.key)) {
-        // Handle key release for any of the specified keys
-        dire = "N";
-      }
-    });
-
-    switch (dire) {
-      case "N":
-        Pp1.velX = 0;
-        if (Pp1.look == "R") {
-          doanim(Pp1, characters[Pp1.char].NR, 6, 1, 1);
-        }
-        if (Pp1.look == "L") {
-          doanim(Pp1, characters[Pp1.char].NL, 2, false);
-        }
-        Pp1.lstDir = "N";
-        break;
-      case "U":
-        break;
-      case "D":
-        Pp1.velX = 0;
-        Pp1.lstDir = "D";
-        break;
-      case "R":
-        Pp1.velX = 10;
-        doanim(Pp1, characters[Pp1.char].WR, 2, 1);
-        Pp1.lstDir = "R";
-        Pp1.look = "R";
-        break;
-      case "L":
-        Pp1.velX = -10;
-        Pp1.lstDir = "L";
-        Pp1.look = "L";
-        break;
-      case "UR":
-        Pp1.velX = 0;
-        Pp1.look = "R";
-        break;
-      case "DR":
-        Pp1.velX = 0;
-        Pp1.look = "R";
-        break;
-      case "UL":
-        Pp1.velX = 0;
-        Pp1.look = "L";
-        break;
-      case "DL":
-        Pp1.velX = 0;
-        Pp1.look = "L";
-        break;
-    }
-
-    //movement uses dire which is from a js file called joyhub.js
+    //movement uses obj.dire which is from a js file called joyhub.js
     i = 0;
   } else {
     if (i == 0) {
@@ -794,6 +831,7 @@ let gameLoo = setInterval(function () {
       i = 1;
       // when gamestarting is off the game pause protocol gets activated
       // the scene is visable but with a tranparent yellow overlay on top
+      // use the purple button to pause/resume
     }
   }
 }, 40);
