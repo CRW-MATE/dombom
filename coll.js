@@ -1,7 +1,7 @@
 let isJumping = false,
   //determines if the jump button is pressed
   i = 0,
-  test01 = 1;
+  hell = 1;
 // i a pretty godlike aura lies behind that name
 Gamestarting = 1;
 // a bool which is tells whether the game is paused or runing like normal
