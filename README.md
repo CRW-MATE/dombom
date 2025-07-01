@@ -1,6 +1,7 @@
 # web game/ engine 
 \__<(.<->.)>__/
-this project is my attempt in making a game engine from scratch  and using said engine to create a game ,all the assets in this project has been made by me
+this project is my attempt in making a game engine from scratch  and using said engine to create a game ,all the assets in this project has been made by me it's
+*note:it is still in development some things aren't complete or some features wil be added along the way
 # index.html 
 it's the webpage that displays the game
 # jystick.js
