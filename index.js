@@ -76,8 +76,8 @@ const pause_menu = () => {
     },
     help: {
       ["press X to jump"]: 0,
-      ["press C to crouch"]: 0,
-      ["try geting close to the rabbit without him giving you the side eye of doom"]: 0,
+      ["press C to crouch aka quiet"]: 0,
+      ["try to be quiet with Mr Rabit and try not to fall of the cliff"]: 0,
     },
     titlescreen: () => {
       menuMode = 1;
