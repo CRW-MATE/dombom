@@ -76,7 +76,7 @@ const pause_menu = () => {
       help: {
         ["press X to jump"]: 0,
         ["press C to crouch"]: 0,
-        ["try geting close to the rabbit without him giving you the side eye of doom crouch to be quiet"]: 0,
+        ["try geting close to the rabbit without him giving you the side eye of doom"]: 0,
       },
     },
     titlescreen: () => {
