@@ -25,7 +25,7 @@ const menu = () => {
 
     c.fillStyle = "rgba(190, 211, 34, 1)";
     c.font = "50px bitcount";
-    c.fillText("Press 'C' to start", mx / 2 - 250, (mh * 4) / 5);
+    c.fillText("Press 'shift+c' to start", mx / 2 - 250, (mh * 4) / 5);
   });
 };
 //menus for any type of thing its an object
@@ -72,6 +72,11 @@ const pause_menu = () => {
       },
       log: {
         [`world Size[${byteLength(localStorage.world) / 1000} kb]`]: 0,
+      },
+      help: {
+        ["press X to jump"]: 0,
+        ["press C to crouch"]: 0,
+        ["try geting close to the rabbit without him giving you the side eye of doom crouch to be quiet"]: 0,
       },
     },
     titlescreen: () => {
