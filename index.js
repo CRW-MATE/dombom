@@ -77,7 +77,7 @@ const pause_menu = () => {
     help: {
       ["press X to jump"]: 0,
       ["press C to be Sneaky"]: 0,
-      ["try to sneek up on Mr Rabit"]: 0,
+      ["try to sneak up on Mr Rabit"]: 0,
       ["try not to fall of the cliff"]: 0,
     },
     titlescreen: () => {
