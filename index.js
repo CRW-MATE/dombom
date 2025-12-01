@@ -25,7 +25,7 @@ const menu = () => {
 
     c.fillStyle = "rgba(190, 211, 34, 1)";
     c.font = "50px bitcount";
-    c.fillText("Press 'shift+c' to start", mx / 2 - 250, (mh * 4) / 5);
+    c.fillText("Press 'shftC' to start", mx / 2 - 250, (mh * 4) / 5);
   });
 };
 //menus for any type of thing its an object
