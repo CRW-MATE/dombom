@@ -73,11 +73,11 @@ const pause_menu = () => {
       log: {
         [`world Size[${byteLength(localStorage.world) / 1000} kb]`]: 0,
       },
-      help: {
-        ["press X to jump"]: 0,
-        ["press C to crouch"]: 0,
-        ["try geting close to the rabbit without him giving you the side eye of doom"]: 0,
-      },
+    },
+    help: {
+      ["press X to jump"]: 0,
+      ["press C to crouch"]: 0,
+      ["try geting close to the rabbit without him giving you the side eye of doom"]: 0,
     },
     titlescreen: () => {
       menuMode = 1;
