@@ -335,7 +335,7 @@ characters = {
 Promise.allSettled(promises)
   .then(() => {
     document.getElementById("white").remove();
-    if (localStorage.world == "") {
+    if (localStorage.world == "" || !localStorage.world) {
       ////////////////||
       localStorage.world = `[
         new scene(
