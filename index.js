@@ -25,7 +25,7 @@ const menu = () => {
 
     c.fillStyle = "rgba(190, 211, 34, 1)";
     c.font = "50px bitcount";
-    c.fillText("Press 'shftC' to start", mx / 2 - 250, (mh * 4) / 5);
+    c.fillText("Press 'shftC' to start", mx / 2 - 300, (mh * 4) / 5);
   });
 };
 //menus for any type of thing its an object
@@ -35,8 +35,9 @@ function byteLength(str) {
 }
 const pause_menu = () => {
   let objSup = {
-    resume: () => {
-      menuBut();
+    [`${!dynamicStorage ? "resume" : "dynamicStorage is on"}`]: () => {
+      shift = 1;
+      cfx();
     },
     items: PpN.items,
     options: {
@@ -77,8 +78,6 @@ const pause_menu = () => {
     help: {
       ["press X to jump"]: 0,
       ["press C to be Sneaky"]: 0,
-      ["try to sneak up on Mr Rabit"]: 0,
-      ["try not to fall of the cliff"]: 0,
     },
     titlescreen: () => {
       menuMode = 1;
@@ -89,14 +88,16 @@ const pause_menu = () => {
   c.fillStyle = `rgba(134, 65, 25, ${PpN.menuOppa})`;
   c.fillRect(0, 0, mx, mh);
   new menus(objSup).draw();
-  if (dynamicStorage) {
+  if (dynamicStorage && localStorage.world !== "") {
     localStorage.world = "";
-    dynamicStorage = 0;
   }
 };
 //
 const images = {
   Pp1: new Image(),
+  pathTTUT: new Image(),
+  bkpat02: new Image(),
+  bkpatAmb: new Image(),
   bkpat01: new Image(),
   cliff: new Image(),
   atlas01: new Image(),
@@ -335,9 +336,14 @@ characters = {
 Promise.allSettled(promises)
   .then(() => {
     document.getElementById("white").remove();
-    if (localStorage.world == "" || !localStorage.world) {
+    if (
+      localStorage.world == "" ||
+      localStorage.world === undefined ||
+      localStorage.world === "[]"
+    ) {
       ////////////////||
       localStorage.world = `[
+        //scene 0
         new scene(
           [
             new effect(
@@ -357,6 +363,22 @@ Promise.allSettled(promises)
             new platform(0, 265, 60, 435, 0, 900, 900),
 
             new platform(0, 700, 2500, 200, 0, 800, 800),
+                        new door(1350, 500, 2, 1, 200, 700),
+             new effect(
+              images.pathTTUT,
+              1120,
+              710,
+              64,
+               104,
+              "full",
+              0,
+              0,
+              0,
+              0,
+              10,
+              2.2
+            ),
+         new platform(1600,0,150,mh,"break",256,64,0,200),
             new effect("rgba(0, 0, 0, 0)", 0, 0, mx, mh, "bk"),
             new effect("rgba(66, 36, 69, 1)", 13, 700, 750, 20, "prop"),
             new effect(
@@ -386,23 +408,80 @@ Promise.allSettled(promises)
               3,
               66
             ),
-            new door(1900, 400, 1, 0, 200,730),
+            new door(1900, 400, 1, 0, 200, 730),
+
           ],
           1600,
           2,
           "ycz"
         ),
+        //scene 1
         new scene(
           [
             new platform(0, 730, 1152, 200, 0, 900, 900, 0, 100, 100),
-            new effect(images.bkpat01,-50,800,256,49,"snip",0,59,0,0,4.5,258),
+            new effect(
+              images.bkpat01,
+              -50,
+              800,
+              256,
+              49,
+              "snip",
+              0,
+              59,
+              0,
+              0,
+              4.5,
+              258
+            ),
             new door(-100, 500, 0, 0, 1400, 700),
-            new entity(mx-50,700, "01"),
+            new entity(mx - 50, 700, "01"),
           ],
           1600,
           2,
           "ycz"
         ),
+        ///-------------------------------
+        //scene 2
+        new scene(
+          [
+            new effect(
+              images.bkpat02,
+              0,
+              mh,
+              250,
+              290,
+              "full",
+              0,
+              0,
+              mx/2,
+              0,
+              9,
+              3
+            ),
+            new platform(0, 700, 2500, 200, 0, 800, 800),
+            new door(-100, 500, 0, 0, 1400, 700),
+                      
+            new effect(
+              images.bkpatAmb,
+              0,
+              mh,
+              250,
+              290,
+              "full",
+              0,
+              0,
+              mx/2,
+              0,
+              9,
+              3
+            ),
+          ],
+          2000,
+          2,
+          "ycz"
+        ),
+        ///-------------------------------
+        //test scene
         new scene(
           [
             new platform(0, 0, 2000, 2000, "floor", 384, 0, 100, 100),
@@ -432,8 +511,14 @@ Promise.allSettled(promises)
       }
     } catch (err) {
       console.error("Failed to load world:", err);
-      alert("World load error:\n" + err.message);
-      localStorage.world = ""; // fallback so your game doesn't crash
+      if (err.message == "World did not return an array") {
+        alert(
+          "Empty world buffer detected \n refresh the page to set the buffer appropriately "
+        );
+      } else {
+        alert("World load error:\n" + err.message);
+      }
+      localStorage.world = [];
     }
 
     window.addEventListener("load", () => {
@@ -460,7 +545,7 @@ Promise.allSettled(promises)
           case 0:
             if (PpN.room == 0) {
               let oppaVel = 0.07;
-              let seekl = 6;
+              let seekl = 9;
               if (world.entities[seekl].YesDraw) {
                 world.entities[seekl - 2].YesDraw = 0;
                 if (world.entities[seekl - 3].oppa > 0) {
@@ -483,11 +568,15 @@ Promise.allSettled(promises)
           case 1:
             if (PpN.timeRatekoff) {
               doanim(world.entities[1], [0, 0, 0, 0, 0, 0, 0], 0, 0, 4, 0);
-              break;
             }
+            break;
+          case 2:
+            break;
         }
 
-        c.fillRect(0, 0, mx, mh);
+        if (PpN.timeRatekoff) {
+          c.fillRect(0, 0, mx, mh);
+        }
       }
 
       if (PpN.crtty) {
