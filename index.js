@@ -458,8 +458,8 @@ Promise.allSettled(promises)
               9,
               3
             ),
-            new platform(0, 750, 2500, 200, 0, 800, 800),
-            new door(-100, 500, 0, 0, 1400, 700),
+            new platform(-200, 750, 2500, 200, 0, 800, 800),
+            new door(-200, 500, 0, 0, 1400, 700),
                       
             new effect(
               images.bkpatAmb,
