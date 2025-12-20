@@ -110,6 +110,8 @@ const images = {
   fingU: new Image(),
   fingLU: new Image(),
   joyhubU: new Image(),
+  dialog: new Image(),
+  tools: new Image(),
 };
 
 let promises = [],
@@ -331,7 +333,12 @@ characters = {
     },
   },
 };
-
+function drawMultilineText(ctx, text, x, y, lineHeight = 20) {
+  const lines = text.split("\n");
+  lines.forEach((line, i) => {
+    ctx.fillText(line, x, y + i * lineHeight);
+  });
+}
 //promise footer
 Promise.allSettled(promises)
   .then(() => {
@@ -408,7 +415,11 @@ Promise.allSettled(promises)
               3,
               66
             ),
+              new entity(1150, 661, "02","the forest's east from here"),
+              new entity(1500, 661, "03",
+              "07"),
             new door(1900, 400, 1, 0, 200, 730),
+
 
           ],
           1600,
@@ -563,6 +574,8 @@ Promise.allSettled(promises)
             } else {
               world.entities[seekl - 2].YesDraw = 1;
             }
+
+            world.entities[11].dd = `this seems like an obstacle \n blocking your path`;
 
             break;
           case 1:
