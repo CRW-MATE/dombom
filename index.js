@@ -179,14 +179,14 @@ Promise.allSettled(promises)
       if (!world) {
         throw new Error(
           "Scene not found: PlayerBase[interZept].room=" +
-            PlayerBase[interZept].room
+            PlayerBase[interZept].room,
         );
       }
     } catch (err) {
       console.error("Failed to load world:", err);
       if (err.message == "World did not return an array") {
         alert(
-          "Empty world buffer detected \n refresh the page to set the buffer appropriately "
+          "Empty world buffer detected \n refresh the page to set the buffer appropriately ",
         );
       } else {
         alert("World load error:\n" + err.message);
@@ -198,73 +198,76 @@ Promise.allSettled(promises)
       jyM();
     });
 
-    setInterval(() => {
-      if (menuMode == true) {
-        menu();
-      } else {
-        if (PlayerBase[interZept].timeRatekoff) {
-          PlayerBase[interZept].is = -1;
+    setInterval(
+      () => {
+        if (menuMode == true) {
+          menu();
+        } else {
+          if (PlayerBase[interZept].timeRatekoff) {
+            PlayerBase[interZept].is = -1;
 
-          movemento(PlayerBase[interZept]);
-        }
+            movemento(PlayerBase[interZept]);
+          }
+          world.collis(PlayerBase[interZept]);
 
-        world.collis(PlayerBase[interZept]);
-        if (!PlayerBase[interZept].timeRatekoff) {
-          pause_menu();
-        }
-        c.fillStyle = `rgba(0,0,0,${
-          ((PlayerBase[interZept].time / 255) *
-            (100 - PlayerBase[interZept].lum)) /
-            100 -
-          0.2
-        })`;
-        for (let hb = 0; hb < PlayerBase.length && hitBoxToggle; hb++) {
-          HitBox(PlayerBase[hb]);
-        }
-        switch (PlayerBase[interZept].room) {
-          case 0:
-            if (PlayerBase[interZept].room == 0) {
-              let oppaVel = 0.07;
-              let seekl = 9;
-              if (world.entities[seekl].YesDraw) {
-                world.entities[seekl - 2].YesDraw = 0;
-                if (world.entities[seekl - 3].oppa > 0) {
-                  world.entities[seekl - 3].oppa -= oppaVel;
+          if (!PlayerBase[interZept].timeRatekoff) {
+            pause_menu();
+          }
+          c.fillStyle = `rgba(0,0,0,${
+            ((PlayerBase[interZept].time / 255) *
+              (100 - PlayerBase[interZept].lum)) /
+              100 -
+            0.2
+          })`;
+          for (let hb = 0; hb < PlayerBase.length && hitBoxToggle; hb++) {
+            HitBox(PlayerBase[hb]);
+          }
+          switch (PlayerBase[interZept].room) {
+            case 0:
+              if (PlayerBase[interZept].room == 0) {
+                let oppaVel = 0.07;
+                let seekl = 9;
+                if (world.entities[seekl].YesDraw) {
+                  world.entities[seekl - 2].YesDraw = 0;
+                  if (world.entities[seekl - 3].oppa > 0) {
+                    world.entities[seekl - 3].oppa -= oppaVel;
+                  }
+                } else {
+                  c.fillStyle = "rgba(0, 0, 0, 0.2)";
+                  if (world.entities[seekl - 3].oppa < 1) {
+                    world.entities[seekl - 3].oppa += oppaVel;
+                  }
                 }
+                world.entities[seekl - 3].color = `rgba(0,0,0,${
+                  world.entities[seekl - 3].oppa
+                })`;
               } else {
-                c.fillStyle = "rgba(0, 0, 0, 0.2)";
-                if (world.entities[seekl - 3].oppa < 1) {
-                  world.entities[seekl - 3].oppa += oppaVel;
-                }
+                world.entities[seekl - 2].YesDraw = 1;
               }
-              world.entities[seekl - 3].color = `rgba(0,0,0,${
-                world.entities[seekl - 3].oppa
-              })`;
-            } else {
-              world.entities[seekl - 2].YesDraw = 1;
-            }
 
-            world.entities[11].dd = `this seems like an obstacle \n blocking your path`;
+              world.entities[11].dd = `this seems like an obstacle \n blocking your path`;
 
-            break;
-          case 1:
-            if (PlayerBase[interZept].timeRatekoff) {
-              doanim(world.entities[1], [0, 0, 0, 0, 0, 0, 0], 0, 0, 4, 0);
-            }
-            break;
-          case 2:
-            break;
+              break;
+            case 1:
+              if (PlayerBase[interZept].timeRatekoff) {
+                doanim(world.entities[1], [0, 0, 0, 0, 0, 0, 0], 0, 0, 4, 0);
+              }
+              break;
+            case 2:
+              break;
+          }
+
+          if (PlayerBase[interZept].timeRatekoff) {
+            c.fillRect(0, 0, mx, mh);
+          }
         }
 
-        if (PlayerBase[interZept].timeRatekoff) {
-          c.fillRect(0, 0, mx, mh);
+        if (PlayerBase[interZept].crtty) {
+          crtOverlay();
         }
-      }
-
-      if (PlayerBase[interZept].crtty) {
-        crtOverlay();
-      }
-    }, 250 * Math.abs(PlayerBase[interZept].timeRate));
+      },
+      250 * Math.abs(PlayerBase[interZept].timeRate),
+    );
   })
   .catch((err) => {
     console.log(err);
