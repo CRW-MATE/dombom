@@ -82,7 +82,7 @@ Promise.allSettled(promises)
 
           ],
           1600,
-          2,
+          0,
           "ycz"
         ),
         //scene 1
@@ -175,9 +175,12 @@ Promise.allSettled(promises)
         throw new Error("World did not return an array");
       }
 
-      world = worldArray[PpN.room];
+      world = worldArray[PlayerBase[interZept].room];
       if (!world) {
-        throw new Error("Scene not found: PpN.room=" + PpN.room);
+        throw new Error(
+          "Scene not found: PlayerBase[interZept].room=" +
+            PlayerBase[interZept].room
+        );
       }
     } catch (err) {
       console.error("Failed to load world:", err);
@@ -199,21 +202,24 @@ Promise.allSettled(promises)
       if (menuMode == true) {
         menu();
       } else {
-        if (PpN.timeRatekoff) {
-          PpN.is = -1;
-          movemento(PpN);
+        if (PlayerBase[interZept].timeRatekoff) {
+          PlayerBase[interZept].is = -1;
+          movemento(PlayerBase[interZept]);
         }
         world.collis(PpN);
-        if (!PpN.timeRatekoff) {
+        if (!PlayerBase[interZept].timeRatekoff) {
           pause_menu();
         }
         c.fillStyle = `rgba(0,0,0,${
-          ((PpN.time / 255) * (100 - PpN.lum)) / 100 - 0.2
+          ((PlayerBase[interZept].time / 255) *
+            (100 - PlayerBase[interZept].lum)) /
+            100 -
+          0.2
         })`;
 
-        switch (PpN.room) {
+        switch (PlayerBase[interZept].room) {
           case 0:
-            if (PpN.room == 0) {
+            if (PlayerBase[interZept].room == 0) {
               let oppaVel = 0.07;
               let seekl = 9;
               if (world.entities[seekl].YesDraw) {
@@ -238,7 +244,7 @@ Promise.allSettled(promises)
 
             break;
           case 1:
-            if (PpN.timeRatekoff) {
+            if (PlayerBase[interZept].timeRatekoff) {
               doanim(world.entities[1], [0, 0, 0, 0, 0, 0, 0], 0, 0, 4, 0);
             }
             break;
@@ -246,15 +252,15 @@ Promise.allSettled(promises)
             break;
         }
 
-        if (PpN.timeRatekoff) {
+        if (PlayerBase[interZept].timeRatekoff) {
           c.fillRect(0, 0, mx, mh);
         }
       }
 
-      if (PpN.crtty) {
+      if (PlayerBase[interZept].crtty) {
         crtOverlay();
       }
-    }, 250 * Math.abs(PpN.timeRate));
+    }, 250 * Math.abs(PlayerBase[interZept].timeRate));
   })
   .catch((err) => {
     console.log(err);
