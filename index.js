@@ -204,9 +204,11 @@ Promise.allSettled(promises)
       } else {
         if (PlayerBase[interZept].timeRatekoff) {
           PlayerBase[interZept].is = -1;
+
           movemento(PlayerBase[interZept]);
         }
-        world.collis(PpN);
+
+        world.collis(PlayerBase[interZept]);
         if (!PlayerBase[interZept].timeRatekoff) {
           pause_menu();
         }
@@ -216,7 +218,9 @@ Promise.allSettled(promises)
             100 -
           0.2
         })`;
-
+        for (let hb = 0; hb < PlayerBase.length && hitBoxToggle; hb++) {
+          HitBox(PlayerBase[hb]);
+        }
         switch (PlayerBase[interZept].room) {
           case 0:
             if (PlayerBase[interZept].room == 0) {
