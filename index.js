@@ -245,7 +245,7 @@ Promise.allSettled(promises)
                 world.entities[seekl - 2].YesDraw = 1;
               }
 
-              world.entities[11].dd = `this seems like an obstacle \n blocking your path`;
+              world.entities[11].dd = `   you need an axe to cut\n   the log head to the woods\n   press "up" when on the\n   path`;
 
               break;
             case 1:
