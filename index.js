@@ -130,7 +130,7 @@ Promise.allSettled(promises)
             ),
             new platform(-200, 750, 2500, 200, 0, 800, 800),
             new door(-200, 500, 0, 0, 1400, 700),
-                      
+            new door(2000, 500, 3, 0, 100, 500),
             new effect(
               images.bkpatAmb,
               0,
@@ -151,16 +151,31 @@ Promise.allSettled(promises)
           "ycz"
         ),
         ///-------------------------------
-        //test scene
+        //scene 3
         new scene(
           [
-            new platform(0, 0, 2000, 2000, "floor", 384, 0, 100, 100),
-            new door(198, 201, 0, 1, 1400, 700),
+            new door(-200, 201, 0, 1, 1400, 700),
+              new effect(
+              images.bkpat0,
+              0,
+              mh + 50,
+              256,
+              290,
+              "full",
+              0,
+              0,
+              mx,
+              0,
+              9,
+              3
+            ),
+             new effect("rgb(70,185,127,1)",0,mh-300,7000,300),
             new entity(mx, mh / 2, "01"),
+            onetimer("for(let zs=0;zs<PlayerBase.length;zs++){PlayerBase[zs].Zindex=2;};")
           ],
-          300,
+          7000,
           0,
-          300
+          200,
         ),
       ]`;
       console.log("loaded in");
@@ -191,7 +206,19 @@ Promise.allSettled(promises)
       } else {
         alert("World load error:\n" + err.message);
       }
-      localStorage.world = [];
+      localStorage.world = [
+        //test scene
+        new scene(
+          [
+            new platform(0, 0, 2000, 2000, "floor", 384, 0, 100, 100),
+            new door(198, 201, 0, 1, 1400, 700),
+            new entity(mx, mh / 2, "01"),
+          ],
+          300,
+          0,
+          300,
+        ),
+      ];
     }
 
     window.addEventListener("load", () => {
@@ -254,6 +281,8 @@ Promise.allSettled(promises)
               }
               break;
             case 2:
+              break;
+            case 3:
               break;
           }
 
