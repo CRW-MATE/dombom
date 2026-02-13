@@ -5,9 +5,11 @@ Promise.allSettled(promises)
     if (
       localStorage.world == "" ||
       localStorage.world === undefined ||
-      localStorage.world === "[]"
+      localStorage.world === "[]" ||
+      localStorage.world === "[object Object]"
     ) {
-      ////////////////||
+      ////////////////||  onetimer("for(let zs=0;zs<PlayerBase.length;zs++){PlayerBase[zs].Zindex=2;};")
+
       localStorage.world = `[
         //scene 0
         new scene(
@@ -171,7 +173,6 @@ Promise.allSettled(promises)
             ),
              new effect("rgb(70,185,127,1)",0,mh-300,7000,300),
             new entity(mx, mh / 2, "01"),
-            onetimer("for(let zs=0;zs<PlayerBase.length;zs++){PlayerBase[zs].Zindex=2;};")
           ],
           7000,
           0,
