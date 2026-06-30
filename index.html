@@ -95,9 +95,24 @@
     <button ontouchstart="cfx()">c</button>
     <button ontouchstart="shiftFx()">shift</button>
     <div id="white"></div>
-    <script src="lib/coll.js"></script>
-    <script src="lib/jystk.js"></script>
-    <script src="lib/canvas.js"></script>
-    <script src="index.js"></script>
+    
+    <!-- CORE SYSTEMS -->
+    <script src="src/core/state.js"></script>
+    <script src="src/core/entities.js"></script>
+    <script src="src/core/assets.js"></script>
+    
+    <!-- GAME SYSTEMS -->
+    <script src="src/systems/animation.js"></script>
+    <script src="src/systems/rendering.js"></script>
+    <script src="src/systems/movement.js"></script>
+    <script src="src/systems/input.js"></script>
+    <script src="src/systems/ui.js"></script>
+    
+    <!-- UTILITIES & DATA -->
+    <script src="src/utils/helpers.js"></script>
+    <script src="src/data/scenes.js"></script>
+    
+    <!-- MAIN GAME -->
+    <script src="src/core/game.js"></script>
   </body>
 </html>

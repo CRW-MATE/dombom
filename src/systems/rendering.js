@@ -1,3 +1,8 @@
+// ============================================
+// RENDERING SYSTEM (Canvas 2D & WebGL)
+// ============================================
+
+// Pattern drawing function
 const drawPat = (img, SpX, SpY, Sw, Sh, pX, pY, x, y, w, h) => {
   Sh == "act" ? images.mainMenu.naturalHeight : Sh;
   Sw == "act" ? images.mainMenu.naturalWidth : Sw;
@@ -46,13 +51,14 @@ const drawPat = (img, SpX, SpY, Sw, Sh, pX, pY, x, y, w, h) => {
     ix += pX;
   }
 };
+
+// Main draw function for all objects
 const draw = (obj) => {
   let brol = 0;
   if (obj.kind == "bk" || obj.kind == "tilebk") {
     brol = PlayerBase[interZept].xc;
   }
-  //brol is an integer used specificly for the effect kind "bk"
-  // in order to be seen no matter the change in position
+
   if (obj.color.tagName == "IMG") {
     if (obj.type == "ent") {
       if (!obj.size) {
@@ -71,14 +77,8 @@ const draw = (obj) => {
       );
       return;
     }
-    //checks for the asset given for the object if it is an image or a color
-    if (!obj.patn) {
-      //checks if it has no pattern
-      //see the next bulletin for information about patterns
-      //could be multiple kinds of things
-      // kinds that would fall under this definition are
-      // prop ,bk ,seek ,all kinds of platforms ,etc...
 
+    if (!obj.patn) {
       if (!obj.SpX) {
         obj.SpX = 0;
       }
@@ -120,9 +120,6 @@ const draw = (obj) => {
       );
     }
   } else {
-    // if the object failed to have an img accommodated to its color attribute
-    // whether if the image was assign correctly or it is a color
-    // any type of any kind could be found here if there is no img
     c.fillStyle = obj.color;
     c.fillRect(
       obj.x - PlayerBase[interZept].xc + brol,
@@ -132,28 +129,22 @@ const draw = (obj) => {
     );
   }
 };
-//draw handles the process of the rendering
-// it simply utilizes the objects' attributes to be drawn in canvas
-// and configures them to meet demands
-// view the function for documentation
-//canvas
 
+// CRT scanlines effect
 function crtDash() {
   const w = canvas.width;
   const h = canvas.height;
-  const size = 6; // pixel size (10x10 grid cells)
+  const size = 6;
 
   crt.beginPath();
-  crt.strokeStyle = "rgba(0, 0, 0, 1)"; // grid line color
+  crt.strokeStyle = "rgba(0, 0, 0, 1)";
   crt.lineWidth = 2;
 
-  // vertical lines
   for (let x = 0; x <= w; x += size) {
     crt.moveTo(x + 0.5, 0);
     crt.lineTo(x + 0.5, h);
   }
 
-  // horizontal lines
   for (let y = 0; y <= h; y += size) {
     crt.moveTo(0, y + 0.5);
     crt.lineTo(w, y + 0.5);
@@ -161,21 +152,40 @@ function crtDash() {
 
   crt.stroke();
 }
+
+// CRT glow overlay effect
 function crtOverlay() {
-  // --- BLOOM PASS ---
   crt.save();
   crt.globalAlpha = 0.1;
-  crt.filter = "blur(0.8px) brightness(1.15)";
-  crt.drawImage(canvas, 0, 0);
-  crt.restore();
-
-  // --- SCANLINES / GRID ---
-  crtDash();
-
-  // --- COLOR TINT ---
-  crt.save();
-  crt.globalAlpha = 0.08;
-  crt.fillStyle = "rgba(160, 220, 255, 1)";
+  crt.fillStyle = "rgb(200, 200, 255)";
   crt.fillRect(0, 0, canvas.width, canvas.height);
   crt.restore();
 }
+
+// Dialog drawing
+function drawMultilineText(ctx, text, x, y, lineHeight = 20) {
+  const lines = text.split("\n");
+  lines.forEach((line, i) => {
+    ctx.fillText(line, x, y + i * lineHeight);
+  });
+}
+
+// Setup dialog draw function
+dialog.draw = () => {
+  c.drawImage(
+    images.dialog,
+    dialog.SpX,
+    dialog.SpY,
+    dialog.sw,
+    dialog.sh,
+    100,
+    20,
+    800,
+    250,
+  );
+
+  c.fillStyle = dialog.font;
+  c.font = "25px p2p";
+
+  drawMultilineText(c, dialog.text, 160, 100, 28);
+};

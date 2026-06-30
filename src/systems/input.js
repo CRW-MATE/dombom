@@ -1,42 +1,72 @@
-const canvas = document.getElementById("canvas");
-const crtvas = document.getElementById("crtvas");
-canvas.style.transformOrigin = "top left";
-crtvas.style.transformOrigin = "top left";
-const c = canvas.getContext("2d");
-const crt = crtvas.getContext("2d");
-let innerH = window.visualViewport.height;
-let innerW = window.visualViewport.width;
-c.imageSmoothingEnabled = false;
-crt.imageSmoothingEnabled = false;
-const kindow = document.querySelector("html");
-let mx = 1000;
-let mh = 800;
-let ska = 1;
-canvas.height = mh;
-canvas.width = mx;
-crtvas.height = mh + 1;
-crtvas.width = mx + 1;
+// ============================================
+// INPUT SYSTEM (Keyboard & Joystick)
+// ============================================
 
-let innerD;
-let log;
-let int;
-let ds;
-const joy = document.getElementById("joy");
-const hub = document.querySelector("#joyHub").style;
-//hubStyle
-hub.position = "absolute";
-hub.backgroundImage = "url('ui/joyhub.png')";
-hub.backgroundSize = "cover";
-hub.zIndex = "2";
-document.getElementById("white").style.zIndex = "4";
-//hubs/3tyles
-joy.style.textAlign = "center";
-joy.style.backgroundImage = "url('ui/fing.png')";
-joy.style.backgroundSize = "cover";
-//hubs/3tick apperance "nub border amd main loop for input"
-let hubs, hubx, huby;
-const buttons = document.getElementsByTagName("button");
+// Input button handlers
+const shiftFx = () => {
+  PlayerBase[interZept].shift = !PlayerBase[interZept].shift;
+};
+
+const cfx = () => {
+  if (PlayerBase[interZept].shift) {
+    if (dynamicStorage && !menuMode && !PlayerBase[interZept].timeRatekoff)
+      return;
+    menuBut();
+    PlayerBase[interZept].shift = 0;
+    return;
+  }
+  if (PlayerBase[interZept].timeRatekoff) {
+    if (PlayerBase[interZept].state == "crouch") {
+      PlayerBase[interZept].state = "";
+      PlayerBase[interZept].lstSta = 0;
+    } else {
+      if (PlayerBase[interZept].state == "") {
+        PlayerBase[interZept].state = "crouching";
+      }
+    }
+  }
+};
+
+const zfx = () => {
+  if (!PlayerBase[interZept].timeRatekoff) Answer = 1;
+};
+
+const xfx = () => {
+  if (!PlayerBase[interZept].timeRatekoff) {
+    Answer = -1;
+  } else {
+    if (PlayerBase[interZept].state == "") {
+      PlayerBase[interZept].state = "gtjump";
+    } else if (
+      PlayerBase[interZept].state == "crouching" &&
+      PlayerBase[interZept].look == "R"
+    ) {
+      PlayerBase[interZept].state = "sprinting";
+    } else if (
+      PlayerBase[interZept].state == "sprinting" ||
+      PlayerBase[interZept].state == "sprintingM"
+    ) {
+      PlayerBase[interZept].state = "";
+      PlayerBase[interZept].sSs = 0;
+    }
+  }
+};
+
+const menuBut = () => {
+  if (!menuMode) {
+    PlayerBase[interZept].timeRatekoff = PlayerBase[interZept].timeRatekoff
+      ? 0
+      : 0.1;
+  }
+  menuMode = false;
+};
+
+// Joystick setup and sizing
 const jySize = (a, b, c) => {
+  const hub = document.querySelector("#joyHub").style;
+  const joy = document.getElementById("joy");
+  const buttons = document.getElementsByTagName("button");
+
   hub.height = `${a}px`;
   hub.width = `${a}px`;
   hubs = a;
@@ -72,16 +102,19 @@ const jySize = (a, b, c) => {
     a.fontSize = `${50 + (1 - buttons[i].textContent.length * 2.5) * 2}px`;
   }
 };
-let joyST, joyEnd;
+
+// Mobile port setup
 function mobilePort() {
+  const hub = document.querySelector("#joyHub").style;
+  const joy = document.getElementById("joy");
+  const buttons = document.getElementsByTagName("button");
+
   if (innerW >= innerH) {
     canvas.style.translate = `${(innerW - mx) / 2}px`;
     canvas.style.transform = `scale(1)`;
     crtvas.style.translate = `${(innerW - mx) / 2}px`;
     crtvas.style.transform = `scale(1)`;
-    //////////////////////////////////
     jySize(450, 10, (1 / 3) * mh - 50);
-    //////////////////////////////////
     buttons[0].style.translate = `${innerW - mx / 2 + 20}px ${
       20 + innerH - 900
     }px`;
@@ -104,9 +137,7 @@ function mobilePort() {
     crtvas.style.translate = canvas.style.translate = `${
       (innerW - mx * ska) / 2
     }px 0px`;
-    /////////////////////////
     jySize(500, 10, mh + 10);
-    //////////////////////////
     buttons[3].style.translate = `${hubx + hubs + 100}px ${mh + 50}px`;
     buttons[1].style.translate = `${innerW - mx / 2 + 300}px ${mh + 500}px`;
     buttons[2].style.translate = `${innerW - mx / 2 + 120}px ${mh + 500}px`;
@@ -114,7 +145,9 @@ function mobilePort() {
   }
 }
 
+// PC port setup
 function pcPort() {
+  const buttons = document.getElementsByTagName("button");
   document.querySelector("#joyHub").remove();
   for (let i = buttons.length - 1; i >= 0; i--) {
     buttons[i].remove();
@@ -143,10 +176,13 @@ function pcPort() {
   }px`;
 }
 
+// Main input initialization
 function jyM() {
+  const kindow = document.querySelector("html");
+
   const screenResize = (X) => {
     if (X) {
-      innerD = innerH;
+      let innerD = innerH;
       innerH = innerW;
       innerW = innerD;
     }
@@ -157,6 +193,8 @@ function jyM() {
 
       joyST = (e, VanillaJoystick) => {
         e.preventDefault();
+        const joy = document.getElementById("joy");
+        const hub = document.querySelector("#joyHub").style;
         PlayerBase[interZept].lstDir = PlayerBase[interZept].dire;
 
         log = [
@@ -181,33 +219,26 @@ function jyM() {
           } else {
             joy.style.backgroundImage = "url('ui/fing.png')";
           }
-          joy.style.translate = `${log[0]}px  
-${log[1]}px`;
+          joy.style.translate = `${log[0]}px ${log[1]}px`;
           if (log[1] > hubs / 3 + ds) {
             PlayerBase[interZept].dire = "D";
-            // joy.innerHTML = "D";
           }
           if (log[1] < hubs / 3 - ds) {
             PlayerBase[interZept].dire = "U";
-            //joy.innerHTML = "U";
           }
           if (log[0] > hubs / 3 + ds) {
             if (log[1] > hubs / 3 + ds) {
               PlayerBase[interZept].dire = "DR";
-              //joy.innerHTML = "DR";
             } else {
               if (log[1] < hubs / 3 - ds) {
                 PlayerBase[interZept].dire = "UR";
-                //joy.innerHTML = "UR";
               } else {
                 PlayerBase[interZept].dire = "R";
-                // joy.innerHTML = "R";
               }
             }
           }
           if (hubs / 3 - ds < log[0] && log[0] < hubs / 3 + ds) {
             if (hubs / 3 - ds < log[1] && log[1] < hubs / 3 + ds) {
-              //joy.innerHTML = "N";
               PlayerBase[interZept].dire = "N";
             }
           }
@@ -215,23 +246,19 @@ ${log[1]}px`;
           if (log[0] < hubs / 3 - ds) {
             if (log[1] > hubs / 3 + ds) {
               PlayerBase[interZept].dire = "DL";
-              //joy.innerHTML = "DL";
             } else {
               if (log[1] < hubs / 3 - ds) {
                 PlayerBase[interZept].dire = "UL";
-                //joy.innerHTML = "UL";
               } else {
                 PlayerBase[interZept].dire = "L";
-                //joy.innerHTML = "L";
               }
             }
           }
-        } else {
         }
       };
 
       joyEnd = () => {
-        //joy.innerHTML = "N";
+        const joy = document.getElementById("joy");
         PlayerBase[interZept].dire = "N";
         log = [];
         joy.style.backgroundImage = "url('ui/fing.png')";
@@ -243,7 +270,7 @@ ${log[1]}px`;
       document.addEventListener("touchstart", (e) => e.preventDefault(), {
         passive: false,
       });
-      //////////////////////
+
       const keybo = (doad) => {
         let kaka = 0;
         if (PlayerBase[interZept].is >= 0) {
@@ -276,7 +303,7 @@ ${log[1]}px`;
         if (kaka && doad)
           PlayerBase[interZept].lstDir = PlayerBase[interZept].dire;
       };
-      //////////////////keybo
+
       document.addEventListener("keyup", function (event) {
         switch (event.key) {
           case "ArrowRight":
@@ -298,15 +325,16 @@ ${log[1]}px`;
             }
             break;
         }
-
         keybo(3);
       });
+
       window.addEventListener("blur", () => {
         PlayerBase[interZept].keysDown.ArrowUp = 0;
         PlayerBase[interZept].keysDown.ArrowLeft = 0;
         PlayerBase[interZept].keysDown.ArrowDown = 0;
         PlayerBase[interZept].keysDown.ArrowRight = 0;
       });
+
       document.addEventListener("keydown", function (event) {
         switch (event.key) {
           case "ArrowRight":
@@ -327,7 +355,6 @@ ${log[1]}px`;
             } else {
               zfx();
             }
-
             break;
           case "x":
             if (event.repeat) {
@@ -335,7 +362,6 @@ ${log[1]}px`;
             } else {
               xfx();
             }
-            //PlayerBase[interZept].dire = "U";
             break;
           case "Shift":
             if (event.repeat) {
@@ -351,13 +377,11 @@ ${log[1]}px`;
             cfx();
             break;
         }
-        keybo(0);
+        keybo();
       });
-      ///////////////////////////////////////////////
     }
   };
+
   screenResize();
-  screen.orientation.addEventListener("change", () => {
-    screenResize(1);
-  });
+  window.addEventListener("orientationchange", () => screenResize(1));
 }
