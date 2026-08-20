@@ -1,11 +1,6 @@
-//loading imgs logic when all is loaded the .then block is executed
-Promise.allSettled(promises)
-  .then(() => {
-    document.getElementById("white").remove();
-   
-      let wholeworld = [
-        //scene 0
-        `new scene(
+wholeworld = [
+  //scene 0
+  `new scene(
           [
             new effect(
               images.bkpat0,
@@ -79,7 +74,8 @@ Promise.allSettled(promises)
           1600,
           2,
           "ycz"
-        )`,`
+        )`,
+  `
         //scene 1
         new scene(
           [
@@ -105,9 +101,9 @@ Promise.allSettled(promises)
           2,
           "ycz"
         )`,
-        ///-------------------------------
-        //scene 2
-        `new scene(
+  ///-------------------------------
+  //scene 2
+  `new scene(
           [
             new effect(
               images.bkpat02,
@@ -145,9 +141,9 @@ Promise.allSettled(promises)
           2,
           "ycz"
         )`,
-        ///-------------------------------
-        //scene 3
-        `new scene(
+  ///-------------------------------
+  //scene 3
+  `new scene(
           [
             new door(-200, 201, 0, 1, 1400, 700),
               new effect(
@@ -171,16 +167,23 @@ Promise.allSettled(promises)
           0,
           200,
         )`,
-      ];
-    }
+];
+window.addEventListener("load", (event) => {
+  jyM();
+});
+window.addEventListener("resize", (event) => {
+  jyM();
+});
+screen.orientation.addEventListener("change", (event) => {
+  jyM();
+});
 
-    window.addEventListener("load", (event) => {
-      jyM();
-    });
-    window.addEventListener("resize", (event) => {
-      jyM();
-    });
-    
+Promise.allSettled(promises)
+  //loading imgs logic when all is loaded the .then block is executed
+  .then(() => {
+    document.getElementById("white").remove();
+
+    world = eval(wholeworld[PlayerBase[interZept].room]);
     setInterval(
       () => {
         if (menuMode == true) {
