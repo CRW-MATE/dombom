@@ -2,17 +2,10 @@
 Promise.allSettled(promises)
   .then(() => {
     document.getElementById("white").remove();
-    if (
-      localStorage.world == "" ||
-      localStorage.world === undefined ||
-      localStorage.world === "[]" ||
-      localStorage.world === "[object Object]"
-    ) {
-      ////////////////||  onetimer("for(let zs=0;zs<PlayerBase.length;zs++){PlayerBase[zs].Zindex=2;};")
-
-      localStorage.world = `[
+   
+      let wholeworld = [
         //scene 0
-        new scene(
+        `new scene(
           [
             new effect(
               images.bkpat0,
@@ -86,7 +79,7 @@ Promise.allSettled(promises)
           1600,
           2,
           "ycz"
-        ),
+        )`,`
         //scene 1
         new scene(
           [
@@ -111,10 +104,10 @@ Promise.allSettled(promises)
           1600,
           2,
           "ycz"
-        ),
+        )`,
         ///-------------------------------
         //scene 2
-        new scene(
+        `new scene(
           [
             new effect(
               images.bkpat02,
@@ -151,10 +144,10 @@ Promise.allSettled(promises)
           2000,
           2,
           "ycz"
-        ),
+        )`,
         ///-------------------------------
         //scene 3
-        new scene(
+        `new scene(
           [
             new door(-200, 201, 0, 1, 1400, 700),
               new effect(
@@ -177,55 +170,17 @@ Promise.allSettled(promises)
           7000,
           0,
           200,
-        ),
-      ]`;
-      console.log("loaded in");
-    }
-
-    try {
-      // compile the string into a function and run it
-      const worldFn = new Function("return " + localStorage.world);
-      let worldArray = worldFn();
-
-      if (!Array.isArray(worldArray)) {
-        throw new Error("World did not return an array");
-      }
-
-      world = worldArray[PlayerBase[interZept].room];
-      if (!world) {
-        throw new Error(
-          "Scene not found: PlayerBase[interZept].room=" +
-            PlayerBase[interZept].room,
-        );
-      }
-    } catch (err) {
-      console.error("Failed to load world:", err);
-      if (err.message == "World did not return an array") {
-        alert(
-          "Empty world buffer detected \n refresh the page to set the buffer appropriately ",
-        );
-      } else {
-        alert("World load error:\n" + err.message);
-      }
-      localStorage.world = [
-        //test scene
-        new scene(
-          [
-            new platform(0, 0, 2000, 2000, "floor", 384, 0, 100, 100),
-            new door(198, 201, 0, 1, 1400, 700),
-            new entity(mx, mh / 2, "01"),
-          ],
-          300,
-          0,
-          300,
-        ),
+        )`,
       ];
     }
 
-    window.addEventListener("load", () => {
+    window.addEventListener("load", (event) => {
       jyM();
     });
-
+    window.addEventListener("resize", (event) => {
+      jyM();
+    });
+    
     setInterval(
       () => {
         if (menuMode == true) {
